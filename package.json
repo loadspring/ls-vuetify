@@ -1,4 +1,5 @@
 {
+  "name": "ls-vuetify",
   "private": true,
   "workspaces": [ "packages/*" ],
   "husky": {
