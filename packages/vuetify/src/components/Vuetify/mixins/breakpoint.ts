@@ -123,7 +123,7 @@ export default function breakpoint (opts: VuetifyUseOptions['breakpoint'] = {}) 
         // v-resize used to do but was
         // removed due to a memory leak
         // https://github.com/vuetifyjs/vuetify/pull/2997
-        this.resizeTimeout = window.setTimeout(this.setDimensions, 200)
+        this.resizeTimeout = window.setTimeout(this.setDimensions, 400)
       },
       setDimensions (): void {
         this.clientHeight = getClientHeight()

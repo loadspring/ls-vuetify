@@ -61,7 +61,8 @@ export default {
       actionsClasses: 'v-datatable__actions',
       actionsRangeControlsClasses: 'v-datatable__actions__range-controls',
       actionsSelectClasses: 'v-datatable__actions__select',
-      actionsPaginationClasses: 'v-datatable__actions__pagination'
+      actionsPaginationClasses: 'v-datatable__actions__pagination',
+      headerBump: false
     }
   },
 
@@ -79,6 +80,14 @@ export default {
     headerColumns () {
       return this.headersLength || this.headers.length + (this.selectAll !== false)
     }
+  },
+
+  watch: {
+      items() {
+          this.$nextTick(() =>
+              this.headerBump = this.$refs.bodyTable && this.$refs.bodyTable.scrollHeight > this.$refs.bodyTable.getBoundingClientRect().height
+          );
+      }
   },
 
   created () {
@@ -103,19 +112,44 @@ export default {
   },
 
   render (h) {
-    const tableOverflow = h(VTableOverflow, {}, [
-      h('table', {
-        'class': this.classes
-      }, [
-        this.genTHead(),
-        this.genTBody(),
-        this.genTFoot()
+    const colgroup = h('colgroup', {}, this.headers.map(header => h('col', header.width ? { style: { width: header.width } } : {})));
+
+    const headerTable = h('div', { 'class': { 'v-datatable__head': true, 'bump': this.headerBump } }, [
+      h('table', { 'class': this.classes,  }, [
+        colgroup,
+        this.genTHead()
       ])
-    ])
+    ]);
+
+    const bodyTable = h('div', { 'class': 'v-datatable__body', ref: 'bodyTable' }, [
+      h('table', { 'class': this.classes }, [
+          colgroup,
+          this.genTBody(),
+          this.genTFoot()
+      ])
+    ]);
 
     return h('div', [
-      tableOverflow,
+      h(VTableOverflow, {}, [
+          headerTable,
+          bodyTable
+      ]),
       this.genActionsFooter()
-    ])
+    ]);
+
+    // const tableOverflow = h(VTableOverflow, {}, [
+    //   h('table', {
+    //     'class': this.classes
+    //   }, [
+    //     this.genTHead(),
+    //     this.genTBody(),
+    //     this.genTFoot()
+    //   ])
+    // ])
+
+    // return h('div', [
+    //   tableOverflow,
+    //   this.genActionsFooter()
+    // ])
   }
 }
