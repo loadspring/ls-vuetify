@@ -102,8 +102,11 @@ export const BaseItemGroup = mixins(
     },
     register (item: GroupableInstance) {
       const index = this.items.push(item) - 1
-
-      item.$on('change', () => this.onClick(item, index))
+      
+      item.$on('change', () =>  {
+        let itemIndex = this.items.findIndex(i => i === item);
+        this.onClick(item, itemIndex);
+      })
 
       // If no value provided and mandatory,
       // assign first registered item
