@@ -439,6 +439,14 @@ module.exports = {
   'v-btn': {
     slots: ['default']
   },
+  'v-overflow-btn': {
+    props: [
+      {
+        name: 'menuProps',
+        default: '{"closeOnClick":false, "closeOnContentClick":false, "openOnClick":false, "maxHeight":300, "offsetY":true, "offsetOverflow":true, "transition":false}'
+      }
+    ]
+  },
   'v-btn-toggle': {
     slots: ['default'],
     events: [
@@ -950,6 +958,9 @@ module.exports = {
   },
   'v-list': {
     slots: ['default']
+  },
+  'v-list-group': {
+    slots: ['activator']
   },
   'v-list-tile': {
     slots: ['default']
